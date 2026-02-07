@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Propose Day</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* Floating Emojis */
+.emoji{
+    position:absolute;
+    font-size:26px;
+    animation:float 3s linear infinite;
+    opacity:0.9;
+}
+@keyframes float{
+    0%{transform:translateY(100vh);}
+    100%{transform:translateY(-10vh);}
+}
+
+/* Card */
+.card{
+    width:270px;
+    height:400px;
+    perspective:1000px;
+    z-index:10;
+}
+.inner{
+    width:100%;
+    height:100%;
+    position:relative;
+    transition:transform 1s;
+    transform-style:preserve-3d;
+}
+.card.flip .inner{
+    transform:rotateY(180deg);
+}
+
+.side{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:25px;
+    backface-visibility:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:22px;
+    box-shadow:0 0 30px rgba(255,0,120,.5);
+}
+
+/* Front */
+.front{
+    background:white;
+    color:#ff4081;
+}
+
+/* Back */
+.back{
+    background:#ffe066;
+    transform:rotateY(180deg);
+    color:#d10068;
+}
+
+/* Greetings */
+.greet{
+    font-size:18px;
+    font-weight:600;
+    color:#ff4081;
+    width:7cm;
+    height:1.5cm;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:6px 0;
+}
+.subline{
+    font-size:13px;
+    color:#d10068;
+    margin-bottom:8px;
+}
+
+p{font-size:14px;}
+
+button{
+    margin:8px;
+    padding:10px 22px;
+    border:none;
+    border-radius:20px;
+    font-size:14px;
+    cursor:pointer;
+}
+.yes{background:#ff4081;color:white;}
+.no{background:#ccc;}
+
+.big-heart{
+    font-size:70px;
+    animation:pulse 1s infinite;
+}
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.15);}
+}
+
+/* New line after flip */
+.after-flip{
+    font-size:14px;
+    margin:6px 0 10px;
+    padding:6px 8px;
+}
+
+#typing{
+    margin-top:8px;
+    font-size:14px;
+    min-height:70px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Romantic Background Music -->
+<audio id="music" loop>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-love-story-698.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Emojis -->
+<script>
+const emojis=["💖","💘","💕","🌹","😍","😘","💞","💓","💐","👩‍❤️‍👨"];
+for(let i=0;i<35;i++){
+    let e=document.createElement("div");
+    e.className="emoji";
+    e.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=Math.random()*100+"vw";
+    e.style.animationDuration=2+Math.random()*2+"s";
+    document.body.appendChild(e);
+}
+</script>
+
+<!-- Card -->
+<div class="card" id="card">
+  <div class="inner">
+
+    <!-- FRONT -->
+    <div class="side front">
+        <h2 class="greet">💘 Happy Propose Day 💘</h2>
+        <div class="subline">🙈🙈kya aap mere  chhote chhote bachho ki chhoti si  mummy banana pasand karengi 🤪🤪🙈🙈</div>
+        <p>Will you marry me?</p>
+        <button class="yes" onclick="accept()">YES 💖🙈🙈</button>
+        <button class="no">NO 🥺</button>
+    </div>
+
+    <!-- BACK -->
+    <div class="side back">
+        <div class="big-heart">❤️</div>
+
+        <!-- NEW LINE: shows immediately after flip -->
+        <div class="after-flip">
+            🥰🥰 Aap  meri puri duniya ho bachha 🥰🥰🥰
+        </div>
+
+        <h3>Love you patniiiiiiiiiiiiiiiii ji 😘😘😘</h3>
+        <div id="typing"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function accept(){
+    document.getElementById("card").classList.add("flip");
+
+    // Play music
+    document.getElementById("music").play();
+
+    // Vibration
+    if(navigator.vibrate){
+        navigator.vibrate([200,100,200,100,300]);
+    }
+
+    // Rose blast
+    for(let i=0;i<25;i++){
+        let r=document.createElement("div");
+        r.className="emoji";
+        r.innerText="🌹";
+        r.style.left=Math.random()*100+"vw";
+        r.style.animationDuration="1.5s";
+        document.body.appendChild(r);
+    }
+
+    // Emotional pause then typing
+    setTimeout(typeMessage,1500);
+}
+
+function typeMessage(){
+    const text="🥰🥰🥰Thank you bachha meri jindagi me aane ke liye aur mujhe itna khushnaseeb banane ke liye🥰🥰🥰.";
+    let i=0;
+    const box=document.getElementById("typing");
+    const timer=setInterval(()=>{
+        box.innerHTML+=text.charAt(i);
+        i++;
+        if(i>=text.length) clearInterval(timer);
+    },60);
+}
+</script>
+
+</body>
+</html>
